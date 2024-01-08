@@ -1,6 +1,5 @@
 package com.shin.myproject.navigation.bottomNavBar
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Analytics
 import androidx.compose.material.icons.filled.Folder
@@ -12,9 +11,6 @@ import androidx.compose.material.icons.outlined.Folder
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -24,9 +20,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.shin.myproject.navigation.routes.MainRoute
 
@@ -39,7 +32,7 @@ fun BottomNavBar(navController: NavController) {
         BottomNavItem("Notifications", Icons.Filled.Notifications, Icons.Outlined.Notifications, MainRoute.Notifications.name) ,
         BottomNavItem("Profile", Icons.Filled.Person, Icons.Outlined.Person, MainRoute.Profile.name)
     )
-    var selectedItem by remember { mutableIntStateOf(0) }
+    var selectedItem by remember { mutableIntStateOf(2) }
 
     NavigationBar(
 

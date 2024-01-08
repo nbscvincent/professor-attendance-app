@@ -39,7 +39,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.nbscollege.professorsattendanceapp.R
+import com.shin.myproject.R
 
 
 @OptIn(ExperimentalMaterial3Api::class)
