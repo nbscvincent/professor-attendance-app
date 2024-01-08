@@ -1,15 +1,16 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.devtools.ksp")
 }
 
 android {
-    namespace = "com.nbscollege.professorsattendanceapp"
-    compileSdk = 33
+    namespace = "com.shin.myproject"
+    compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.nbscollege.professorsattendanceapp"
-        minSdk = 24
+        applicationId = "com.shin.myproject"
+        minSdk = 26
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -30,17 +31,17 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
+        kotlinCompilerExtensionVersion = "1.5.3"
     }
     packaging {
         resources {
@@ -50,15 +51,28 @@ android {
 }
 
 dependencies {
-
-    implementation("androidx.core:core-ktx:1.9.0")
+    // Icons
+    implementation("androidx.compose.material:material-icons-extended:1.5.4")
+    implementation("com.google.firebase:firebase-inappmessaging-ktx:20.4.0")
+    // Navigation
+//    val nav_version = "2.7.4" implemment $nav_version
+    implementation("androidx.navigation:navigation-compose:2.7.6")
+    // Splash screen
+    implementation("androidx.core:core-splashscreen:1.0.1")
+    //==========================================
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
-    implementation("androidx.activity:activity-compose:1.7.2")
+    implementation("androidx.activity:activity-compose:1.8.2")
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.material3:material3:1.1.2")
+    implementation("androidx.compose.material3:material3-window-size-class:1.1.2")
+    implementation("androidx.compose.ui:ui-graphics-android:1.5.4")
+    implementation("com.google.android.engage:engage-core:1.3.1")
+    implementation("com.google.android.gms:play-services-mlkit-subject-segmentation:16.0.0-beta1")
+    implementation("com.google.android.material:material:1.11.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -66,4 +80,35 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+    //external implementations
+    implementation ("androidx.compose.foundation:foundation:1.5.4")
+    implementation ("androidx.compose.ui:ui-tooling:1.5.4")
+    implementation ("androidx.compose.runtime:runtime-livedata:1.5.4")
+
+    //Material 3 Core
+    implementation ("com.maxkeppeler.sheets-compose-dialogs:core:1.0.2")
+    //Calendar
+    implementation ("com.maxkeppeler.sheets-compose-dialogs:calendar:1.0.2")
+    //Clock
+    implementation ("com.maxkeppeler.sheets-compose-dialogs:clock:1.0.2")
+    //Swipe
+    implementation("me.saket.swipe:swipe:1.2.0")
+
+    val room_version = "2.6.1"
+    //Room
+    implementation("androidx.room:room-runtime:$room_version")
+    implementation("androidx.core:core-ktx:1.12.0")
+    ksp("androidx.room:room-compiler:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
+    implementation("androidx.room:room-common:$room_version")
+    implementation("androidx.room:room-runtime:$room_version")
+
+    //Data Converter
+    implementation ("com.google.code.gson:gson:2.9.0")
+
+    //live clock
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+
 }
