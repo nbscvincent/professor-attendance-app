@@ -5,8 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.shin.myproject.data.authModel.User
+import com.shin.myproject.data.mainscreenModel.attendance.Attendance
 import com.shin.myproject.data.mainscreenModel.studentModel.Student
 import com.shin.myproject.data.mainscreenModel.subjectModel.Subject
+import com.shin.myproject.user.dao.AttendanceDao
 import com.shin.myproject.user.dao.StudentDao
 import com.shin.myproject.user.dao.SubjectDao
 import com.shin.myproject.user.dao.UserDao
@@ -14,11 +16,12 @@ import com.shin.myproject.user.dao.UserDao
 /**
  * Database class with a singleton Instance object.
  */
-@Database(entities = [User::class, Subject::class, Student::class], version = 3, exportSchema = false)
+@Database(entities = [User::class, Subject::class, Student::class, Attendance::class], version = 3, exportSchema = false)
 abstract class AttendanceAppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun subjectDao(): SubjectDao
     abstract fun studentDao(): StudentDao
+    abstract fun attendanceDao(): AttendanceDao
 
 
     companion object {

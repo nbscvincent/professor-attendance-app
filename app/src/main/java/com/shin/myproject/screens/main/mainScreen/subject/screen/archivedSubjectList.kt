@@ -52,7 +52,12 @@ fun ArchivedSubjectScreen(
     var unarchivedSubject by remember { mutableStateOf<Subject?>(null) }
     var deletedSubject by remember { mutableStateOf<Subject?>(null) }
 
-    LazyColumn {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp, horizontal = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         // If the subject list is empty, display a message
         if (subjects.isEmpty()) {
             item {
@@ -86,7 +91,6 @@ fun ArchivedSubjectScreen(
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
             ) {
                 Row(
                     modifier = Modifier

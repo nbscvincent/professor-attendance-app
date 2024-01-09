@@ -25,7 +25,7 @@ fun SelectedSubjectCard(subjectInfo: SubjectInfo?) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(vertical = 4.dp)
     ) {
         Column(
             modifier = Modifier

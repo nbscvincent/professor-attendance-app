@@ -52,7 +52,12 @@ fun SubjectScreen(
     var archivedSubject by remember { mutableStateOf<Subject?>(null) }
     var deletedSubject by remember { mutableStateOf<Subject?>(null) }
 
-    LazyColumn {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp, horizontal = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         // If the subject list is empty, display a message
         if (subjects.isEmpty()) {
             item {
@@ -86,7 +91,6 @@ fun SubjectScreen(
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
             ) {
                 Row(
                     modifier = Modifier
@@ -186,14 +190,14 @@ fun ShowArchiveDialog(
             Button(
                 onClick = onConfirm
             ) {
-                Text(text = "Confirm")
+                Text(text = "Confirm", color = Color.White)
             }
         },
         dismissButton = {
             Button(
                 onClick = onCancel
             ) {
-                Text(text = "Cancel")
+                Text(text = "Cancel", color = Color.White)
             }
         }
     )
@@ -217,14 +221,14 @@ fun ShowDeleteDialog(
             Button(
                 onClick = onConfirm
             ) {
-                Text(text = "Confirm")
+                Text(text = "Confirm", color = Color.White)
             }
         },
         dismissButton = {
             Button(
                 onClick = onCancel
             ) {
-                Text(text = "Cancel")
+                Text(text = "Cancel", color = Color.White)
             }
         }
     )

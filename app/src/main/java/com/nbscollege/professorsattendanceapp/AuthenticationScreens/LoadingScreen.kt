@@ -18,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import com.shin.myproject.R
 import kotlinx.coroutines.delay
 
-
 @Composable
 fun LoadingScreen() {
     LaunchedEffect(Unit) {

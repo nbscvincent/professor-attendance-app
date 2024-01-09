@@ -10,10 +10,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
-import androidx.compose.material.icons.filled.Archive
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Subject
 import androidx.compose.material.icons.filled.Today
+import androidx.compose.material.icons.filled.Unarchive
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -43,12 +43,12 @@ fun ArchivedSubjectCard(
         icon = {
             Icon(
                 modifier = Modifier.padding(16.dp),
-                imageVector = Icons.Default.Archive,
-                contentDescription = "archive",
+                imageVector = Icons.Default.Unarchive,
+                contentDescription = "unarchive",
                 tint = Color.White
             )
         },
-        background = Color.LightGray
+        background = Color.Green
     )
     val delete = SwipeAction(
         onSwipe = {
@@ -69,7 +69,7 @@ fun ArchivedSubjectCard(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 4.dp)
+                .padding(vertical = 4.dp)
                 .clickable {
                     onClick()
                 }
@@ -105,24 +105,6 @@ fun ArchivedSubjectCard(
                 }
             }
         }
-
-        Icon(
-            modifier = Modifier
-                .size(24.dp)
-                .padding(horizontal = 8.dp),
-            imageVector = Icons.Default.Archive,
-            contentDescription = "Archive",
-            tint = Color.Gray
-        )
-
-        Icon(
-            modifier = Modifier
-                .size(24.dp)
-                .padding(horizontal = 8.dp),
-            imageVector = Icons.Default.Delete,
-            contentDescription = "Delete",
-            tint = Color.Gray
-        )
     }
 }
 

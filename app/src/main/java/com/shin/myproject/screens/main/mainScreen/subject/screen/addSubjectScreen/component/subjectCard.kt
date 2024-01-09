@@ -69,7 +69,7 @@ fun SubjectCard(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 4.dp)
+                .padding(vertical = 4.dp)
                 .clickable {
                     onClick()
                 }
@@ -105,24 +105,6 @@ fun SubjectCard(
                 }
             }
         }
-
-        Icon(
-            modifier = Modifier
-                .size(24.dp)
-                .padding(horizontal = 8.dp),
-            imageVector = Icons.Default.Archive,
-            contentDescription = "Archive",
-            tint = Color.Gray
-        )
-
-        Icon(
-            modifier = Modifier
-                .size(24.dp)
-                .padding(horizontal = 8.dp),
-            imageVector = Icons.Default.Delete,
-            contentDescription = "Delete",
-            tint = Color.Gray
-        )
     }
 }
 

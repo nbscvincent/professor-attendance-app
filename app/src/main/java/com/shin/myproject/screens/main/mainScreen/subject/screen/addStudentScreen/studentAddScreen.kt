@@ -68,8 +68,8 @@ fun StudentAddScreen(
 
     LazyColumn(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(25.dp),
+            .fillMaxWidth()
+            .padding(vertical = 4.dp, horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {

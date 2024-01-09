@@ -69,19 +69,12 @@ fun LoginScreen(
     val coroutineScope = rememberCoroutineScope()
     var loginFailedText by remember { mutableStateOf("") }
 
-    Scaffold(
-        modifier = Modifier
-            .fillMaxSize()
-            .fillMaxWidth()
-            .padding(25.dp)
-            .wrapContentSize(Alignment.Center)
-    ) { innerPadding ->
+    Scaffold { innerPadding ->
         LazyColumn(
             modifier = Modifier
                 .padding(innerPadding)
-                .fillMaxSize()
                 .fillMaxWidth()
-                .padding(horizontal = 25.dp),
+                .padding(horizontal = 16.dp, vertical = 4.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

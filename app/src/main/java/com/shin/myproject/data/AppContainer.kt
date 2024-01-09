@@ -1,6 +1,8 @@
 package com.shin.myproject.data
 
 import android.content.Context
+import com.shin.myproject.user.repository.attendancce.AttendanceRepository
+import com.shin.myproject.user.repository.attendancce.OfflineAttendanceRepository
 import com.shin.myproject.user.repository.student.OfflineStudentRepository
 import com.shin.myproject.user.repository.student.StudentRepository
 import com.shin.myproject.user.repository.subject.OfflineSubjectRepository
@@ -12,6 +14,7 @@ interface AppContainer {
     val userRepository: UserRepository
     val subjectRepository: SubjectRepository
     val studentRepository: StudentRepository
+    val attendanceRepository: AttendanceRepository
 }
 
 /**
@@ -35,5 +38,11 @@ class AppDataContainer(private val context: Context) : AppContainer {
      */
     override val studentRepository: StudentRepository by lazy {
         OfflineStudentRepository(AttendanceAppDatabase.getDatabase(context).studentDao())
+    }
+    /**
+     * Implementation for [attendanceRepository]
+     */
+    override val attendanceRepository: AttendanceRepository by lazy {
+        OfflineAttendanceRepository(AttendanceAppDatabase.getDatabase(context).attendanceDao())
     }
 }

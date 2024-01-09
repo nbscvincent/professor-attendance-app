@@ -1,11 +1,11 @@
 package com.shin.myproject.screens.main.mainScreen.home.screen
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import kotlinx.coroutines.delay
 import java.time.LocalDateTime
@@ -37,10 +38,9 @@ fun HomeScreen(navController: NavController) {
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
             .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         DateTime(currentTime = currentTime)
     }
@@ -49,33 +49,49 @@ fun HomeScreen(navController: NavController) {
 
 @Composable
 fun DateTime(currentTime: LocalDateTime) {
-    val formatter = DateTimeFormatter.ofPattern("hh:mm:ss a")
-    val pstTime = currentTime.atZone(ZoneId.of("Asia/Manila")).format(formatter)
+    val formatterTime = DateTimeFormatter.ofPattern(if (currentTime.hour < 10) "h:mm:ss a" else "hh:mm:ss a")
+    val pstTime = currentTime.atZone(ZoneId.of("Asia/Manila")).format(formatterTime)
 
-    val dateFormatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy")
-    val pstDate = currentTime.atZone(ZoneId.of("Asia/Manila")).format(dateFormatter)
+    val formatterDate = DateTimeFormatter.ofPattern("MMMM dd, yyyy")
+    val pstDate = currentTime.atZone(ZoneId.of("Asia/Manila")).format(formatterDate)
 
-    Column(
+    Card(
         modifier = Modifier
-            .size(300.dp, 150.dp)
-            .background(color = Color.Gray)
-            .padding(16.dp)
+            .fillMaxWidth()
     ) {
-        Text(
-            text = pstTime,
-            fontWeight = FontWeight.Bold,
+        Row(
             modifier = Modifier
-                .weight(1f)
-                .fillMaxSize()
-                .padding(8.dp),
-        )
-        Text(
-            text = pstDate,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxSize()
-                .padding(8.dp),
-        )
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = pstTime,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 24.sp,
+                    color = Color.White
+                )
+            }
+            Column(
+                modifier = Modifier
+                    .padding(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = pstDate,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    color = Color.White
+                )
+            }
+        }
     }
 }
