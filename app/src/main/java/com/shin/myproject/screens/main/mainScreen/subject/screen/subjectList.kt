@@ -17,7 +17,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -42,11 +44,13 @@ fun SubjectScreen(
     navController: NavController,
     subjectListViewModel: SubjectListViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
-    // Load subjects when the screen is created
-    subjectListViewModel.loadSubjects()
+    // LaunchedEffect to continuously refresh subjects
+    LaunchedEffect(subjectListViewModel) {
+        subjectListViewModel.loadSubjects()
+    }
 
     // Observe the subjectList LiveData
-    val subjects = subjectListViewModel.subjectList.value ?: emptyList()
+    val subjects by subjectListViewModel.subjectList.observeAsState(emptyList())
     var showArchiveDialog by remember { mutableStateOf(false) }
     var showDeleteDialog by remember { mutableStateOf(false) }
     var archivedSubject by remember { mutableStateOf<Subject?>(null) }

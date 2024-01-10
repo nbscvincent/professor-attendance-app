@@ -27,7 +27,6 @@ class SubjectListViewModel(
     fun loadSubjects() {
         if (loggedInUserId != -1L) {
             viewModelScope.launch {
-                // Use the SubjectRepository to get non-archived subjects
                 val subjects = subjectRepository.getAllSubjectsByUserId(loggedInUserId, includeArchived = false)
                 _subjectList.postValue(subjects)
             }

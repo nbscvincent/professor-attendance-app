@@ -17,7 +17,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -43,10 +45,12 @@ fun ArchivedSubjectScreen(
     archivedSubjectListViewModel: ArchivedSubjectListViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     // Load subjects when the screen is created
-    archivedSubjectListViewModel.loadArchivedSubjects()
+    LaunchedEffect(archivedSubjectListViewModel) {
+        archivedSubjectListViewModel.loadArchivedSubjects()
+    }
 
     // Observe the subjectList LiveData
-    val subjects = archivedSubjectListViewModel.archivedSubjectList.value ?: emptyList()
+    val subjects by archivedSubjectListViewModel.archivedSubjectList.observeAsState(emptyList())
     var showUnarchiveDialog by remember { mutableStateOf(false) }
     var showDeleteDialog by remember { mutableStateOf(false) }
     var unarchivedSubject by remember { mutableStateOf<Subject?>(null) }

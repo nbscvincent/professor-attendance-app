@@ -28,9 +28,12 @@ class ArchivedSubjectListViewModel (
     fun loadArchivedSubjects() {
         if (loggedInUserId != -1L) {
             viewModelScope.launch {
-                // Use the SubjectRepository to get non-archived subjects
-                val subjects = subjectRepository.getAllSubjectsByUserId(loggedInUserId, includeArchived = true)
-                _archivedSubjectList.postValue(subjects)
+                try {
+                    val subjects = subjectRepository.getAllSubjectsByUserId(loggedInUserId, includeArchived = true)
+                    _archivedSubjectList.postValue(subjects)
+                } catch (e: Exception) {
+                    Log.e("ArchivedSubjectListViewModel", "Error loading archived subjects: ${e.message}", e)
+                }
             }
         }
     }

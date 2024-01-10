@@ -31,19 +31,16 @@ fun StudentScreen(
     studentListViewModel: StudentListViewModel = viewModel(factory = AppViewModelProvider.Factory),
     subjectInfo: SubjectInfoHolder = SubjectInfoHolder
 ) {
+    LaunchedEffect(studentListViewModel) {
+        studentListViewModel.loadStudents()
+    }
+
     val coroutineScope = rememberCoroutineScope()
     val selectedSubjectInfo = subjectInfo.subjectInfo.value
     val selectedStudent by studentListViewModel.selectedStudent.observeAsState(null)
-    val students by studentListViewModel.studentsForSelectedSubject.observeAsState(emptyList())
+    val students by studentListViewModel.studentList.observeAsState(emptyList())
 
-    // Use coroutineScope.launch instead of LaunchedEffect
-    LaunchedEffect(selectedSubjectInfo, coroutineScope) {
-        selectedSubjectInfo?.let { subjectInfo ->
-            coroutineScope.launch {
-                studentListViewModel.loadStudentsForSelectedSubject(subjectInfo.subjectId)
-            }
-        }
-    }
+
 
     DisposableEffect(selectedStudent) {
         onDispose {
@@ -98,7 +95,9 @@ fun StudentScreen(
                         }
                     },
                     onCancel = {
-                        // Implementation when student is cancel attendance
+                        coroutineScope.launch {
+                            studentListViewModel.onCancel(student.studentId)
+                        }
                     }
                 )
             }

@@ -17,10 +17,15 @@ import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.shin.myproject.ViewModel.AppViewModelProvider
+import com.shin.myproject.ViewModel.student.StudentListViewModel
 import com.shin.myproject.data.mainscreenModel.studentModel.Student
 import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.component.SubjectInfoItem
 import me.saket.swipe.SwipeAction
@@ -32,7 +37,8 @@ fun StudentCard(
     onClick: () -> Unit,
     onPresent: (Student) -> Unit,
     onAbsent: (Student) -> Unit,
-    onCancel : (Student) -> Unit
+    onCancel : (Student) -> Unit,
+    studentListViewModel: StudentListViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val logo = Icons.Default.Person
     val present = SwipeAction(
@@ -80,7 +86,23 @@ fun StudentCard(
         },
         background = Color.Gray
     )
-    SwipeableActionsBox(startActions = listOf(present), endActions = listOf(absent)) {
+
+    val attendanceStatusLiveData = studentListViewModel.getAttendanceStatusLiveData(student.studentId)
+    val attendanceStatus by attendanceStatusLiveData.observeAsState(initial = false)
+
+    val startActions = if (attendanceStatus == true) {
+        listOf(cancel)
+    } else {
+        listOf(present)
+    }
+
+    val endActions = if (attendanceStatus == true) {
+        listOf(cancel)
+    } else {
+        listOf(absent)
+    }
+
+    SwipeableActionsBox(startActions = startActions, endActions = endActions) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
