@@ -29,7 +29,6 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.shin.myproject.ViewModel.AppViewModelProvider
 import com.shin.myproject.ViewModel.ScreenViewModel
-import com.shin.myproject.ViewModel.splash.LogoutSplashScreen
 import com.shin.myproject.ViewModel.splash.SubjectRegisterSplashScreen
 import com.shin.myproject.ViewModel.student.StudentListViewModel
 import com.shin.myproject.navigation.bottomNavBar.BottomNavBar
@@ -53,9 +52,7 @@ data class TopBarInfo(val title: String, val actionIcon: ImageVector?, val actio
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(
-    navController: NavHostController
-) {
+fun MainScreen() {
     val navController: NavHostController = rememberNavController()
     val screenViewModel: ScreenViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val studentListViewModel: StudentListViewModel = viewModel(factory = AppViewModelProvider.Factory)
@@ -198,16 +195,6 @@ fun MainScreen(
                         isBottomAppBarVisible = false
                         ProfileSettings(navController)
                     }
-                }
-                composable(route = Routes.APP.name ) {
-                    isTopAppBarVisible = false
-                    isBottomAppBarVisible = false
-                    NBSApp()
-                }
-                composable(route = Routes.LOGOUT.name ) {
-                    isTopAppBarVisible = false
-                    isBottomAppBarVisible = false
-                    LogoutSplashScreen(navController, screenViewModel)
                 }
             }
         }

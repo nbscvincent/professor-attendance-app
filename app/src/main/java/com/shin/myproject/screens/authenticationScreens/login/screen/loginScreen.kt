@@ -4,12 +4,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
@@ -219,7 +217,7 @@ fun LoginScreen(
                                         println("Logged-in user: $loggedInUser")
 
                                         // Navigate to the main screen or perform any other action
-                                        navController.navigate(AuthRoute.LoginSplash.name)
+//                                        navController.navigate(AuthRoute.LoginSplash.name)
                                     }
                                     is LoginResult.Failure -> {
                                         // Handle login failure if needed

@@ -1,5 +1,9 @@
 package com.shin.myproject.data.authModel
 
+import android.util.Log
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+
 data class LoggedInUser(
     val userId: Long,
     val firstname: String,
@@ -9,21 +13,24 @@ data class LoggedInUser(
 )
 
 object LoggedInUserHolder {
-    private var loggedInUser: LoggedInUser? = null
+    private val _loggedInUser = MutableStateFlow<LoggedInUser?>(null)
+    val loggedInUser = _loggedInUser.asStateFlow()
 
     fun setLoggedInUser(user: LoggedInUser) {
-        loggedInUser = user
-    }
-
-    fun getLoggedInUser(): LoggedInUser? {
-        return loggedInUser
+        _loggedInUser.value = user
+        Log.d("LoggedInUserHolder", "User set as logged in: $user")
     }
 
     fun clearLoggedInUser() {
-        loggedInUser = null
+        _loggedInUser.value = null
+        Log.d("LoggedInUserHolder", "Logged-in user cleared.")
+    }
+
+    fun getLoggedInUser(): LoggedInUser? {
+        return _loggedInUser.value
     }
 
     fun isLoggedIn(): Boolean {
-        return loggedInUser != null
+        return _loggedInUser.value != null
     }
 }

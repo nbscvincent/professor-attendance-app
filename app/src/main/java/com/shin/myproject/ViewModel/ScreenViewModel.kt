@@ -69,4 +69,8 @@ class ScreenViewModel : ViewModel() {
     fun resetSubjectRegistered() {
         _subjectRegistered.value = false
     }
+
+    fun resetSplashLoaded() {
+        _splashLoaded.value = false
+    }
 }

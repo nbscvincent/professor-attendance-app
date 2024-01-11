@@ -1,5 +1,6 @@
 package com.shin.myproject.ViewModel.splash
 
+import MainScreen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,7 +22,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.shin.myproject.R
 import com.shin.myproject.ViewModel.ScreenViewModel
-import com.shin.myproject.navigation.routes.Routes
 
 
 @Composable
@@ -33,7 +33,7 @@ fun LoginSplashScreen(
     screenViewModel.loginUser()
 
     if (state.value) {
-        navController.navigate(Routes.MAIN.name)
+        MainScreen()
     } else {
         Column(
             verticalArrangement = Arrangement.Center,

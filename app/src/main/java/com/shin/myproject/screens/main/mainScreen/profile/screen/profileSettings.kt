@@ -79,7 +79,7 @@ fun ProfileSettings(
             onConfirm = {
                 // User confirmed, perform logout
                 settingsViewModel.logout()
-                navController.navigate(Routes.LOGOUT.name)
+//                navController.navigate(Routes.LOGOUT.name)
                 showLogoutDialog = false
             },
             onCancel = {

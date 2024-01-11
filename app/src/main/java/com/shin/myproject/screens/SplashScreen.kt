@@ -1,6 +1,5 @@
 package com.shin.myproject.screens
 
-import NBSApp
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,25 +13,25 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.shin.myproject.R
 import com.shin.myproject.ViewModel.ScreenViewModel
 
 @Composable
 fun SplashScreen(
-    navController: NavHostController,
     screenViewModel: ScreenViewModel,
+    content : @Composable () -> Unit
 ) {
     val state = screenViewModel.splashLoaded.collectAsState()
     screenViewModel.runSplashScreen()
 
     if (state.value) {
-        NBSApp()
+        content()
     } else {
         Column(
             verticalArrangement = Arrangement.Center,
@@ -53,6 +52,10 @@ fun SplashScreen(
                 color = MaterialTheme.colorScheme.surfaceVariant,
                 trackColor = MaterialTheme.colorScheme.secondary,
             )
+            // Run the resetSubjectRegistered function after a delay
+            LaunchedEffect(Unit) {
+                screenViewModel.resetSplashLoaded()
+            }
         }
     }
 }

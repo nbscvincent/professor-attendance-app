@@ -28,7 +28,6 @@ import androidx.navigation.NavHostController
 import com.shin.myproject.R
 import com.shin.myproject.ViewModel.ScreenViewModel
 import com.shin.myproject.navigation.routes.MainRoute
-import kotlinx.coroutines.delay
 
 
 @Composable
@@ -76,7 +75,6 @@ fun SubjectRegisterSplashScreen(
             )
             // Run the resetSubjectRegistered function after a delay
             LaunchedEffect(Unit) {
-                delay(0) // Adjust the delay as needed
                 screenViewModel.resetSubjectRegistered()
             }
         }

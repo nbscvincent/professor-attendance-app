@@ -11,6 +11,7 @@ import androidx.navigation.navigation
 import com.shin.myproject.ViewModel.AppViewModelProvider
 import com.shin.myproject.ViewModel.ScreenViewModel
 import com.shin.myproject.ViewModel.splash.LoginSplashScreen
+import com.shin.myproject.ViewModel.splash.LogoutSplashScreen
 import com.shin.myproject.ViewModel.splash.RegisterSplashScreen
 import com.shin.myproject.navigation.routes.AuthRoute
 import com.shin.myproject.navigation.routes.Routes
@@ -29,7 +30,13 @@ fun NBSApp() {
     NavHost(navController = navController, startDestination =  Routes.AUTH.name)  {
 
         composable(route = Routes.MAIN.name ) {
-            MainScreen(navController)
+            MainScreen()
+        }
+        composable(route = Routes.APP.name ) {
+            NBSApp()
+        }
+        composable(route = Routes.LOGOUT.name ) {
+            LogoutSplashScreen(navController, screenViewModel)
         }
         navigation(startDestination = AuthRoute.LoginScreen.name, route = Routes.AUTH.name) {
             composable(route = AuthRoute.LoginScreen.name) {

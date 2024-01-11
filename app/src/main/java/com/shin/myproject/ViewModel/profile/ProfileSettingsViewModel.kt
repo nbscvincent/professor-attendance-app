@@ -7,6 +7,7 @@ import com.shin.myproject.user.repository.user.UserRepository
 class SettingsViewModel(
     private val userRepository: UserRepository
 ) : ViewModel() {
+
     fun logout() {
         // Clear the logged-in user data
         LoggedInUserHolder.clearLoggedInUser()
@@ -24,4 +25,3 @@ class SettingsViewModel(
         }
     }
 }
-
