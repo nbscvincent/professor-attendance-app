@@ -26,7 +26,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.shin.myproject.ViewModel.AppViewModelProvider
@@ -49,7 +51,7 @@ fun ProfileSettings(
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 25.dp)
+            .padding(horizontal = 16.dp)
     ) {
         item {
             SettingButtons(
@@ -118,20 +120,25 @@ fun SettingButtons(
         onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
-            .height(50.dp)
-            .padding(horizontal = 25.dp),
+            .height(65.dp),
         colors = ButtonDefaults.buttonColors(Color.Red),
         shape = RoundedCornerShape(20.dp)
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(text = text)
+            Text(
+                text = text,
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp
+            )
             Icon(imageVector = icon, contentDescription = null)
         }
     }
-    Spacer(modifier = Modifier.height(10.dp))
+    Spacer(modifier = Modifier.height(4.dp))
 }
 
 @Composable

@@ -3,7 +3,10 @@ package com.shin.myproject.screens.main.mainScreen.home.screen
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
@@ -15,7 +18,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -39,7 +41,7 @@ fun HomeScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(vertical = 4.dp, horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         DateTime(currentTime = currentTime)
@@ -55,41 +57,58 @@ fun DateTime(currentTime: LocalDateTime) {
     val formatterDate = DateTimeFormatter.ofPattern("MMMM dd, yyyy")
     val pstDate = currentTime.atZone(ZoneId.of("Asia/Manila")).format(formatterDate)
 
-    Card(
+    Row(
         modifier = Modifier
-            .fillMaxWidth()
+            .height(100.dp)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(2.dp)
     ) {
-        Row(
+        Card(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+                .fillMaxHeight()
+                .weight(1f)
         ) {
             Column(
                 modifier = Modifier
-                    .padding(8.dp),
+                    .fillMaxSize()
+                    .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
+                Text(
+                    text = "Time",
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 16.sp
+                )
                 Text(
                     text = pstTime,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 24.sp,
-                    color = Color.White
+                    fontSize = 24.sp
                 )
             }
+        }
+
+        Card(
+            modifier = Modifier
+                .fillMaxHeight()
+                .weight(1f)
+        ) {
             Column(
                 modifier = Modifier
-                    .padding(8.dp),
+                    .fillMaxSize()
+                    .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
+                    text = "Date",
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 16.sp
+                )
+                Text(
                     text = pstDate,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp,
-                    color = Color.White
+                    fontSize = 24.sp
                 )
             }
         }
