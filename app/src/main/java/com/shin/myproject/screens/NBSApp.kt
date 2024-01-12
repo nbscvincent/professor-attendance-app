@@ -17,6 +17,7 @@ import com.shin.myproject.navigation.routes.AuthRoute
 import com.shin.myproject.navigation.routes.Routes
 import com.shin.myproject.screens.authenticationScreens.login.screen.LoginScreen
 import com.shin.myproject.screens.authenticationScreens.otp.OTPScreen
+import com.shin.myproject.screens.authenticationScreens.otp.PasswordRecoveryScreen
 import com.shin.myproject.screens.authenticationScreens.register.screen.RegistrationScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -48,12 +49,14 @@ fun NBSApp() {
             composable(route = AuthRoute.OTPScreen.name) {
                 OTPScreen(navController)
             }
-
             composable(route = AuthRoute.RegisterSplash.name) {
                 RegisterSplashScreen(navController, screenViewModel)
             }
             composable(route = AuthRoute.LoginSplash.name) {
                 LoginSplashScreen(navController, screenViewModel)
+            }
+            composable(route = AuthRoute.PasswordRecovery.name) {
+                PasswordRecoveryScreen(navController)
             }
         }
     }

@@ -47,9 +47,25 @@ class LoginViewModel(
 
         return LoginResult.Success(loggedInUser)
     }
+
+    suspend fun recoverPassword(email: String): RecoveryResult {
+        // Check if the email is valid
+        val user = userRepository.getUserByEmail(email)
+        if (user == null) {
+            return RecoveryResult.Failure("Invalid email.")
+        }
+
+        // Password recovery successful
+        return RecoveryResult.Success(user.password)
+    }
 }
 
 sealed class LoginResult {
     data class Success(val message: LoggedInUser) : LoginResult()
     data class Failure(val errorMessage: String) : LoginResult()
+}
+
+sealed class RecoveryResult {
+    data class Success(val password: String) : RecoveryResult()
+    data class Failure(val errorMessage: String) : RecoveryResult()
 }

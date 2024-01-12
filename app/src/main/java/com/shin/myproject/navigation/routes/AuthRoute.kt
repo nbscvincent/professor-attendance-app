@@ -5,6 +5,7 @@ enum class AuthRoute {
     RegistrationScreen,
     OTPScreen,
 
+    PasswordRecovery,
     RegisterSplash,
     LoginSplash
 }
