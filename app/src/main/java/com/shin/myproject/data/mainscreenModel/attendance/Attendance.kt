@@ -15,6 +15,7 @@ data class Attendance(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "attendance_id")
     val attendanceId: Long = 0,
+    val subjectId : Long,
     @ColumnInfo(name = "student_id")
     val studentId: Long,
     val studentCode: Int,

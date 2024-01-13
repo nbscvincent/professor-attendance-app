@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.shin.myproject.data.mainscreenModel.attendance.Attendance
 import com.shin.myproject.data.mainscreenModel.studentModel.Student
 import com.shin.myproject.data.mainscreenModel.subjectModel.SelectedSubjectIdHolder
+import com.shin.myproject.data.mainscreenModel.subjectModel.SubjectInfo
+import com.shin.myproject.data.mainscreenModel.subjectModel.SubjectInfoHolder
 import com.shin.myproject.screens.main.mainScreen.subject.screen.addStudentScreen.component.SelectedStudent
 import com.shin.myproject.user.repository.attendancce.AttendanceRepository
 import com.shin.myproject.user.repository.student.StudentRepository
@@ -22,6 +24,7 @@ class StudentListViewModel (
     private val attendanceRepository: AttendanceRepository
 ) : ViewModel() {
 
+    val subjectInfo : SubjectInfo? = SubjectInfoHolder.subjectInfo.value
     private val _studentList = MutableLiveData<List<Student>>()
     val studentList: LiveData<List<Student>> get() = _studentList
 
@@ -77,8 +80,10 @@ class StudentListViewModel (
     private fun createAttendanceFromStudent(student: Student, isPresent: Boolean): Attendance {
         val currentDateTime = LocalDateTime.now(ZoneId.of("Asia/Manila"))
             .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+        val currentSubjectId = subjectInfo?.subjectId ?: 0
 
         return Attendance(
+            subjectId = currentSubjectId,
             studentId = student.studentId,
             studentCode = student.studentCode,
             firstname = student.firstname,

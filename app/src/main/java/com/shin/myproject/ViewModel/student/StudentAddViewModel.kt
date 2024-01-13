@@ -9,7 +9,6 @@ class StudentAddViewModel (
     private val studentListViewModel: StudentListViewModel
 ) : ViewModel() {
 
-
     suspend fun insertStudent(
         subjectId: Long,
         studentCode: Int,
