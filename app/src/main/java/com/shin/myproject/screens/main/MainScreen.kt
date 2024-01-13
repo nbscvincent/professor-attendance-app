@@ -2,6 +2,7 @@
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.CreateNewFolder
 import androidx.compose.material.icons.filled.PersonAdd
 import androidx.compose.material.icons.filled.Settings
@@ -48,8 +49,13 @@ import com.shin.myproject.screens.main.mainScreen.subject.screen.addStudentScree
 import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.SubjectAddScreen
 
 // Data class for top bar information
-data class TopBarInfo(val title: String, val actionIcon: ImageVector?, val actionRoute: String?)
-
+data class TopBarInfo(
+    val title: String,
+    val navigationIcon: ImageVector?,
+    val navigationRoute : String?,
+    val actionIcon: ImageVector?,
+    val actionRoute: String?
+)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen() {
@@ -63,7 +69,7 @@ fun MainScreen() {
 
     // State variable to hold the current top bar information
     var currentTopBarInfo by remember {
-        mutableStateOf(TopBarInfo("", null, null))
+        mutableStateOf(TopBarInfo("", null, null, null, null))
     }
 
     Scaffold(
@@ -78,6 +84,20 @@ fun MainScreen() {
                             Text(
                                 text = currentTopBarInfo.title
                             )
+                        },
+                        navigationIcon = {
+                            currentTopBarInfo.navigationIcon?.let { icon ->
+                                IconButton(
+                                    onClick = {
+                                        // Handle navigation using the specified navController
+                                        currentTopBarInfo.navigationRoute?.let { route ->
+                                            navController.navigate(route)
+                                        }
+                                    }
+                                ) {
+                                    Icon(imageVector = icon, contentDescription = null)
+                                }
+                            }
                         },
                         actions = {
                             currentTopBarInfo.actionIcon?.let { icon ->
@@ -111,20 +131,20 @@ fun MainScreen() {
 
             // Extract the top bar information based on the current route
             currentTopBarInfo = when (currentRoute) {
-                MainRoute.HomeScreen.name -> TopBarInfo("Home", null, null)
-                MainRoute.Dashboard.name -> TopBarInfo("Dashboard", null, null)
-                MainRoute.Subjects.name -> TopBarInfo("Subjects", Icons.Default.CreateNewFolder, SubjectRoute.AddSubjectScreen.name)
-                MainRoute.Notifications.name -> TopBarInfo("Notifications", null, null)
-                MainRoute.Profile.name -> TopBarInfo("Profile", Icons.Default.Settings, ProfileRoute.ProfileSettings.name)
+                MainRoute.HomeScreen.name -> TopBarInfo("Home", null, null, null, null)
+                MainRoute.Dashboard.name -> TopBarInfo("Dashboard", null, null, null, null)
+                MainRoute.Subjects.name -> TopBarInfo("Subjects", null,  null, Icons.Default.CreateNewFolder, SubjectRoute.AddSubjectScreen.name)
+                MainRoute.Notifications.name -> TopBarInfo("Notifications", null, null, null, null)
+                MainRoute.Profile.name -> TopBarInfo("Profile", null, null, Icons.Default.Settings, ProfileRoute.ProfileSettings.name)
 
-                SubjectRoute.AddSubjectScreen.name -> TopBarInfo("Create New Subject", null, null)
-                SubjectRoute.StudentsScreen.name -> TopBarInfo("Students", Icons.Default.PersonAdd, SubjectRoute.AddStudentScreen.name)
-                SubjectRoute.ArchivedSubjectsScreen.name -> TopBarInfo("ArchivedSubjects", null, null)
-                SubjectRoute.AddStudentScreen.name -> TopBarInfo("Add New Student", null, null)
+                SubjectRoute.AddSubjectScreen.name -> TopBarInfo("Create New Subject", null, null, null, null)
+                SubjectRoute.StudentsScreen.name -> TopBarInfo("Students", Icons.Default.ArrowBack, MainRoute.Subjects.name, Icons.Default.PersonAdd, SubjectRoute.AddStudentScreen.name)
+                SubjectRoute.ArchivedSubjectsScreen.name -> TopBarInfo("ArchivedSubjects", null, null, null, null)
+                SubjectRoute.AddStudentScreen.name -> TopBarInfo("Add New Student", Icons.Default.ArrowBack, SubjectRoute.StudentsScreen.name, null, null)
 
-                ProfileRoute.ProfileSettings.name -> TopBarInfo("Account Settings", null, null)
+                ProfileRoute.ProfileSettings.name -> TopBarInfo("Account Settings", Icons.Default.ArrowBack, MainRoute.Profile.name, null, null)
 
-                else -> TopBarInfo("", null, null)
+                else -> TopBarInfo("", null, null, null, null)
             }
 
             NavHost(
