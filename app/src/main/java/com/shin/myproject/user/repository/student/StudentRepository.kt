@@ -21,6 +21,11 @@ interface StudentRepository {
     suspend fun updateStudent(student: Student)
 
     /**
+     * Update the marked status of a student.
+     */
+    suspend fun updateStudentMarkedStatus(studentId: Long, marked: Boolean)
+
+    /**
      * Get all students for a specific subject.
      */
     fun getStudentsForSubject(subjectId: Long): Flow<List<Student>>

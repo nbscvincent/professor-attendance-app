@@ -23,5 +23,6 @@ data class Student(
     val course: String,
     val year: String,
     @ColumnInfo(name = "is_working_student")
-    val isWorkingStudent: Boolean
+    val isWorkingStudent: Boolean,
+    val marked : Boolean
 )

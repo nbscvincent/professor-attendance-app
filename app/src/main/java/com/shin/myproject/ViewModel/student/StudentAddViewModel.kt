@@ -33,7 +33,8 @@ class StudentAddViewModel (
             lastname = lastName,
             isWorkingStudent = isWorking,
             course = course,
-            year = year
+            year = year,
+            marked = false
         )
 
         studentRepository.insertStudent(newStudent)

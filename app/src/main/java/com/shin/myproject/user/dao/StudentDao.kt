@@ -17,7 +17,8 @@ interface StudentDao {
 
     @Update
     suspend fun update(student: Student)
-
+    @Query("UPDATE Students SET marked = :marked WHERE student_id = :studentId")
+    suspend fun updateStudentMarkedStatus(studentId: Long, marked: Boolean)
     @Delete
     suspend fun delete(student: Student)
 

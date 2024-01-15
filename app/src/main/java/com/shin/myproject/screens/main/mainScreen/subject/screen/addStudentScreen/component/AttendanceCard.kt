@@ -1,12 +1,6 @@
 package com.shin.myproject.screens.main.mainScreen.subject.screen.addStudentScreen.component
 
 import android.util.Log
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,8 +17,6 @@ import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,25 +24,28 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.shin.myproject.ViewModel.AppViewModelProvider
 import com.shin.myproject.ViewModel.student.StudentListViewModel
-import com.shin.myproject.data.mainscreenModel.studentModel.Student
+import com.shin.myproject.data.mainscreenModel.attendance.Attendance
 import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.component.SubjectInfoItem
 import me.saket.swipe.SwipeAction
 import me.saket.swipe.SwipeableActionsBox
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 @Composable
-fun StudentCard(
-    student: Student,
+fun AttendanceCard(
+    attendance: Attendance,
     onClick: () -> Unit,
-    onPresent: (Student) -> Unit,
-    onAbsent: (Student) -> Unit,
-    onCancel : (Student) -> Unit,
+    onPresent: (Attendance) -> Unit,
+    onAbsent: (Attendance) -> Unit,
+    onCancel: (Attendance) -> Unit,
     studentListViewModel: StudentListViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val logo = Icons.Default.Person
     val present = SwipeAction(
         onSwipe = {
-            onPresent(student)
-            Log.d("SwipeAction", "Present student: ${student.firstname} ${student.lastname}")
+            onPresent(attendance)
+            Log.d("SwipeAction", "Present attendance: ${attendance.firstname} ${attendance.lastname}")
         },
         icon = {
             Icon(
@@ -64,8 +59,8 @@ fun StudentCard(
     )
     val absent = SwipeAction(
         onSwipe = {
-            onAbsent(student)
-            Log.d("SwipeAction", "Absent student: ${student.firstname} ${student.lastname}")
+            onAbsent(attendance)
+            Log.d("SwipeAction", "Absent attendance: ${attendance.firstname} ${attendance.lastname}")
         },
         icon = {
             Icon(
@@ -79,11 +74,8 @@ fun StudentCard(
     )
     val cancel = SwipeAction(
         onSwipe = {
-            onCancel(student)
-            Log.d(
-                "SwipeAction",
-                "Attendance canceled for: ${student.firstname} ${student.lastname}"
-            )
+            onCancel(attendance)
+            Log.d("SwipeAction", "Attendance canceled for: ${attendance.firstname} ${attendance.lastname}")
         },
         icon = {
             Icon(
@@ -96,20 +88,18 @@ fun StudentCard(
         background = Color.Gray
     )
 
-    val attendanceStatusLiveData =
-        studentListViewModel.getAttendanceStatusLiveData(student.studentId)
-    val attendanceStatus by attendanceStatusLiveData.observeAsState(initial = false)
+    // ... (remaining code)
 
-    val startActions = if (student.marked) {
-        listOf(cancel)
+    val startActions = if (attendance.attendanceStatus) {
+        listOf(absent)
     } else {
         listOf(present)
     }
 
-    val endActions = if (student.marked) {
+    val endActions = if (attendance.attendanceStatus) {
         listOf(cancel)
     } else {
-        listOf(absent)
+        listOf(cancel)
     }
 
     SwipeableActionsBox(startActions = startActions, endActions = endActions) {
@@ -143,28 +133,39 @@ fun StudentCard(
                 Column(
                     modifier = Modifier.weight(3f),
                 ) {
+                    SubjectInfoItem(icon = Icons.Default.Info, tag = "Student ID:", content = "${attendance.studentCode}")
+                    SubjectInfoItem(icon = Icons.Default.Info, tag = "Name:", content = "${attendance.firstname} ${attendance.lastname}")
                     SubjectInfoItem(
                         icon = Icons.Default.Info,
-                        tag = "Student ID:",
-                        content = "${student.studentCode}"
+                        tag = "Date:",
+                        content = formatDate(attendance.date)
                     )
                     SubjectInfoItem(
                         icon = Icons.Default.Info,
-                        tag = "Name:",
-                        content = "${student.firstname} ${student.lastname}"
-                    )
-                    SubjectInfoItem(
-                        icon = Icons.Default.Info,
-                        tag = "Course:",
-                        content = student.course
-                    )
-                    SubjectInfoItem(
-                        icon = Icons.Default.Info,
-                        tag = "Year:",
-                        content = student.year
+                        tag = "Time:",
+                        content = formatTimeIn12Hours(attendance.time)
                     )
                 }
             }
         }
     }
+}
+
+
+
+@Composable
+fun formatTimeIn12Hours(time: String): String {
+    val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
+    val parsedTime = LocalTime.parse(time, formatter)
+    val formattedTime = DateTimeFormatter.ofPattern("hh:mm a").format(parsedTime)
+    return formattedTime
+}
+
+
+@Composable
+fun formatDate(date: String): String {
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    val parsedDate = LocalDate.parse(date, formatter)
+    val formattedDate = DateTimeFormatter.ofPattern("MMMM d, yyyy").format(parsedDate)
+    return formattedDate
 }

@@ -3,6 +3,7 @@ package com.shin.myproject.ViewModel.student
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.shin.myproject.data.mainscreenModel.attendance.Attendance
 import com.shin.myproject.data.mainscreenModel.studentModel.Student
@@ -23,17 +24,28 @@ class StudentListViewModel (
     private val studentRepository: StudentRepository,
     private val attendanceRepository: AttendanceRepository
 ) : ViewModel() {
-
     val subjectInfo : SubjectInfo? = SubjectInfoHolder.subjectInfo.value
+
     private val _studentList = MutableLiveData<List<Student>>()
     val studentList: LiveData<List<Student>> get() = _studentList
+
+    private val _unmarkedStudents = MutableLiveData<List<Student>>()
+    val unmarkedStudents: LiveData<List<Student>> get() = _unmarkedStudents
 
     fun loadStudents() {
         viewModelScope.launch {
             val subjectId = SelectedSubjectIdHolder.selectedSubjectId.value ?: return@launch
             studentRepository.getStudentsForSubject(subjectId).collect { students ->
                 _studentList.value = students
+                loadUnmarkedStudents()
             }
+        }
+    }
+
+    fun loadUnmarkedStudents() {
+        viewModelScope.launch {
+            val unmarkedStudents = _studentList.value?.filter { it.marked == false } ?: emptyList()
+            _unmarkedStudents.value = unmarkedStudents
         }
     }
 
@@ -50,11 +62,26 @@ class StudentListViewModel (
         return _attendanceStatusMap.getOrPut(studentId) { MutableLiveData<Boolean>() }
     }
 
+    fun attendanceForCurrentDate(): LiveData<List<Attendance>> {
+        val currentDate = LocalDateTime.now(ZoneId.of("Asia/Manila"))
+            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+
+        val subjectId = SelectedSubjectIdHolder.selectedSubjectId.value ?: return MutableLiveData(emptyList())
+
+        return attendanceRepository.getStudentsForDate(subjectId, currentDate)
+            .asLiveData(viewModelScope.coroutineContext)
+    }
+
     suspend fun onPresent(student: Student) {
         withContext(Dispatchers.IO) {
             val attendance = createAttendanceFromStudent(student, true)
             attendanceRepository.insertAttendance(attendance)
             getAttendanceStatusLiveData(student.studentId).postValue(true)
+            studentRepository.updateStudentMarkedStatus(student.studentId, true)
+
+            // Reload the present attendances and unmarked students
+            loadPresentAttendances()
+            loadUnmarkedStudents()
         }
     }
 
@@ -63,6 +90,38 @@ class StudentListViewModel (
             val attendance = createAttendanceFromStudent(student, false)
             attendanceRepository.insertAttendance(attendance)
             getAttendanceStatusLiveData(student.studentId).postValue(true)
+            studentRepository.updateStudentMarkedStatus(student.studentId, true)
+
+            // Reload the absent attendances and unmarked students
+            loadAbsentAttendances()
+            loadUnmarkedStudents()
+        }
+    }
+
+
+    suspend fun onPresentAttendance(attendance: Attendance) {
+        withContext(Dispatchers.IO) {
+            attendanceRepository.updateAttendanceStatus(attendance.attendanceId, true)
+            getAttendanceStatusLiveData(attendance.studentId).postValue(true)
+            studentRepository.updateStudentMarkedStatus(attendance.studentId, true)
+
+            // Reload the present attendances, absent attendances, and unmarked students
+            loadPresentAttendances()
+            loadAbsentAttendances()
+            loadUnmarkedStudents()
+        }
+    }
+
+    suspend fun onAbsentAttendance(attendance: Attendance) {
+        withContext(Dispatchers.IO) {
+            attendanceRepository.updateAttendanceStatus(attendance.attendanceId, false)
+            getAttendanceStatusLiveData(attendance.studentId).postValue(true)
+            studentRepository.updateStudentMarkedStatus(attendance.studentId, true)
+
+            // Reload the present attendances, absent attendances, and unmarked students
+            loadPresentAttendances()
+            loadAbsentAttendances()
+            loadUnmarkedStudents()
         }
     }
 
@@ -74,6 +133,7 @@ class StudentListViewModel (
             withContext(Dispatchers.IO) {
                 attendanceRepository.deleteAttendanceForStudentAndDate(studentId, currentDate)
                 getAttendanceStatusLiveData(studentId).postValue(false)
+                studentRepository.updateStudentMarkedStatus(studentId, false)
             }
         }
     }
@@ -94,12 +154,34 @@ class StudentListViewModel (
         )
     }
 
-    // Check if the student has attendance for the current date
-    suspend fun hasAttendanceForCurrentDate(studentId: Long): Boolean {
-        return withContext(Dispatchers.IO) {
-            val currentDate = LocalDateTime.now(ZoneId.of("Asia/Manila")).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-            val attendance = attendanceRepository.getAttendanceForStudentAndDate(studentId, currentDate)
-            attendance != null
+    private val _presentAttendances = MutableLiveData<List<Attendance>>()
+    val presentAttendances: LiveData<List<Attendance>> get() = _presentAttendances
+
+    private val _absentAttendances = MutableLiveData<List<Attendance>>()
+    val absentAttendances: LiveData<List<Attendance>> get() = _absentAttendances
+
+    fun loadPresentAttendances() {
+        viewModelScope.launch {
+            val subjectId = SelectedSubjectIdHolder.selectedSubjectId.value ?: return@launch
+            val currentDate = LocalDateTime.now(ZoneId.of("Asia/Manila"))
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).split(" ")[0]
+
+            attendanceRepository.getStudentsWithAttendanceStatus(subjectId, true, currentDate).collect{ presentAttendances ->
+                _presentAttendances.value = presentAttendances
+            }
+        }
+    }
+
+
+    fun loadAbsentAttendances() {
+        viewModelScope.launch {
+            val subjectId = SelectedSubjectIdHolder.selectedSubjectId.value ?: return@launch
+            val currentDate = LocalDateTime.now(ZoneId.of("Asia/Manila"))
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).split(" ")[0]
+
+            attendanceRepository.getStudentsWithAttendanceStatus(subjectId, false, currentDate).collect{ absentAttendances ->
+                _absentAttendances.value = absentAttendances
+            }
         }
     }
 }
