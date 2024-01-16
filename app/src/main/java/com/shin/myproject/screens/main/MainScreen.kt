@@ -37,7 +37,7 @@ import com.shin.myproject.navigation.routes.MainRoute
 import com.shin.myproject.navigation.routes.ProfileRoute
 import com.shin.myproject.navigation.routes.Routes
 import com.shin.myproject.navigation.routes.SubjectRoute
-import com.shin.myproject.screens.main.mainScreen.analyticDashboard.screen.DashboardScreen
+import com.shin.myproject.screens.main.mainScreen.analyticDashboard.screen.Dashboard
 import com.shin.myproject.screens.main.mainScreen.home.screen.HomeScreen
 import com.shin.myproject.screens.main.mainScreen.notification.screen.NotificationScreen
 import com.shin.myproject.screens.main.mainScreen.profile.screen.ProfileScreen
@@ -159,7 +159,7 @@ fun MainScreen() {
                 composable(route = MainRoute.Dashboard.name) {
                     isTopAppBarVisible = true
                     isBottomAppBarVisible = true
-                    DashboardScreen(navController)
+                    Dashboard(navController)
                 }
                 composable(route = MainRoute.Subjects.name) {
                     isTopAppBarVisible = true
