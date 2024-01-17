@@ -31,4 +31,9 @@ interface StudentRepository {
     fun getStudentsForSubject(subjectId: Long): Flow<List<Student>>
 
     suspend fun checkIfStudentExistsInSubject(subjectId: Long, studentCode: Int): Boolean
+
+    /**
+     * Reset the marked status of all students to false.
+     */
+    suspend fun resetMarkedStatusForAllStudents()
 }

@@ -1,11 +1,9 @@
 package com.shin.myproject.ViewModel.analytics
 
-import androidx.lifecycle.ViewModel
 import com.shin.myproject.user.repository.attendancce.AttendanceRepository
 
-
-class DashboardViewModel(
+class AttendanceViewModel(
     private val attendanceRepository: AttendanceRepository
-) : ViewModel() {
+) {
 
 }

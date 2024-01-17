@@ -1,10 +1,16 @@
 package com.shin.myproject.ViewModel.student
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.shin.myproject.data.mainscreenModel.attendance.Attendance
 import com.shin.myproject.data.mainscreenModel.studentModel.Student
 import com.shin.myproject.data.mainscreenModel.subjectModel.SelectedSubjectIdHolder
@@ -17,12 +23,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
-import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.concurrent.TimeUnit
 
 class StudentListViewModel (
     private val studentRepository: StudentRepository,
-    private val attendanceRepository: AttendanceRepository
+    private val attendanceRepository: AttendanceRepository,
+    private val context: Context
 ) : ViewModel() {
     val subjectInfo : SubjectInfo? = SubjectInfoHolder.subjectInfo.value
 
@@ -63,7 +70,7 @@ class StudentListViewModel (
     }
 
     fun attendanceForCurrentDate(): LiveData<List<Attendance>> {
-        val currentDate = LocalDateTime.now(ZoneId.of("Asia/Manila"))
+        val currentDate = LocalDateTime.now()
             .format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 
         val subjectId = SelectedSubjectIdHolder.selectedSubjectId.value ?: return MutableLiveData(emptyList())
@@ -127,7 +134,7 @@ class StudentListViewModel (
 
     fun onCancel(studentId: Long) {
         viewModelScope.launch {
-            val currentDate = LocalDateTime.now(ZoneId.of("Asia/Manila")).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+            val currentDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 
             // Remove attendance records for the selected student and current date
             withContext(Dispatchers.IO) {
@@ -138,7 +145,7 @@ class StudentListViewModel (
         }
     }
     private fun createAttendanceFromStudent(student: Student, isPresent: Boolean): Attendance {
-        val currentDateTime = LocalDateTime.now(ZoneId.of("Asia/Manila"))
+        val currentDateTime = LocalDateTime.now()
             .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
         val currentSubjectId = subjectInfo?.subjectId ?: 0
 
@@ -163,7 +170,7 @@ class StudentListViewModel (
     fun loadPresentAttendances() {
         viewModelScope.launch {
             val subjectId = SelectedSubjectIdHolder.selectedSubjectId.value ?: return@launch
-            val currentDate = LocalDateTime.now(ZoneId.of("Asia/Manila"))
+            val currentDate = LocalDateTime.now()
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).split(" ")[0]
 
             attendanceRepository.getStudentsWithAttendanceStatus(subjectId, true, currentDate).collect{ presentAttendances ->
@@ -176,12 +183,35 @@ class StudentListViewModel (
     fun loadAbsentAttendances() {
         viewModelScope.launch {
             val subjectId = SelectedSubjectIdHolder.selectedSubjectId.value ?: return@launch
-            val currentDate = LocalDateTime.now(ZoneId.of("Asia/Manila"))
+            val currentDate = LocalDateTime.now()
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).split(" ")[0]
 
             attendanceRepository.getStudentsWithAttendanceStatus(subjectId, false, currentDate).collect{ absentAttendances ->
                 _absentAttendances.value = absentAttendances
             }
         }
+    }
+
+    // Define the unique name for the work request
+    private val resetMarkedStatusWorkName = "resetMarkedStatusWork"
+
+    // Set up the periodic work request to reset marked status
+    private val resetMarkedStatusWorkRequest =
+        PeriodicWorkRequestBuilder<ResetMarkedStatusWorker>(1, TimeUnit.DAYS)
+            .addTag(resetMarkedStatusWorkName)
+            .setConstraints(Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
+            .build()
+
+    init {
+        // Enqueue the periodic work request
+        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
+            resetMarkedStatusWorkName,
+            ExistingPeriodicWorkPolicy.REPLACE,
+            resetMarkedStatusWorkRequest
+        )
+    }
+
+    fun cancelResetMarkedStatusWork() {
+        WorkManager.getInstance(context).cancelUniqueWork(resetMarkedStatusWorkName)
     }
 }

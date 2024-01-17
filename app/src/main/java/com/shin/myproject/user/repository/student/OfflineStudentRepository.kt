@@ -22,4 +22,8 @@ class OfflineStudentRepository(private val studentDao: StudentDao) : StudentRepo
         val count = studentDao.checkIfStudentExistsInSubject(subjectId, studentCode)
         return count > 0
     }
+
+    override suspend fun resetMarkedStatusForAllStudents() {
+        studentDao.resetMarkedStatusForAllStudents()
+    }
 }

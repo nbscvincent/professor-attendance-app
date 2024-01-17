@@ -62,7 +62,8 @@ object AppViewModelProvider {
                 nbsAttendanceApplication().container.studentRepository,
                 StudentListViewModel(
                     nbsAttendanceApplication().container.studentRepository,
-                    nbsAttendanceApplication().container.attendanceRepository
+                    nbsAttendanceApplication().container.attendanceRepository,
+                    nbsAttendanceApplication()
                 )
             )
         }
@@ -71,7 +72,8 @@ object AppViewModelProvider {
         initializer {
             StudentListViewModel (
                 nbsAttendanceApplication().container.studentRepository,
-                nbsAttendanceApplication().container.attendanceRepository
+                nbsAttendanceApplication().container.attendanceRepository,
+                nbsAttendanceApplication()
             )
         }
 
@@ -85,8 +87,6 @@ object AppViewModelProvider {
         // Initializer for DashboardViewModel
         initializer {
             DashboardViewModel(
-                nbsAttendanceApplication().container.subjectRepository,
-                nbsAttendanceApplication().container.studentRepository,
                 nbsAttendanceApplication().container.attendanceRepository
             )
         }

@@ -27,4 +27,7 @@ interface StudentDao {
 
     @Query("SELECT COUNT(*) FROM Students WHERE subject_id = :subjectId AND studentCode = :studentCode")
     suspend fun checkIfStudentExistsInSubject(subjectId: Long, studentCode: Int): Int
+
+    @Query("UPDATE Students SET marked = 0")
+    suspend fun resetMarkedStatusForAllStudents()
 }

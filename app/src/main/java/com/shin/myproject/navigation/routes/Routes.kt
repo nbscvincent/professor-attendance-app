@@ -4,6 +4,7 @@ enum class Routes {
     AUTH,
     MAIN,
     SUBJECTS,
+    DASHBOARD,
     PROFILE,
     LOGOUT,
     APP

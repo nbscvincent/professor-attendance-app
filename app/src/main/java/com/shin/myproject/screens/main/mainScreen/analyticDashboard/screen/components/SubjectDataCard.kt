@@ -13,11 +13,9 @@ import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Subject
 import androidx.compose.material.icons.filled.Today
 import androidx.compose.material3.Card
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.shin.myproject.data.mainscreenModel.subjectModel.Subject
 import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.component.SubjectInfoItem
@@ -51,13 +49,6 @@ fun SubjectDataCard(
                 SubjectInfoItem(icon = Icons.Default.Subject, tag = "Code:", content = subject.subjectCode)
                 SubjectInfoItem(icon = Icons.Default.Subject, tag = "Name:", content = subject.subjectName)
                 SubjectInfoItem(icon = Icons.Default.Today, tag = "Day:", content = subject.subjectDay)
-
-                Text(
-                    text = "Attendances of : ",
-                    fontWeight = FontWeight.SemiBold
-                )
-
-                // Replace startTime with current date and endTime with current time
                 val currentDateTime = LocalDateTime.now()
                 val formattedDate = currentDateTime.format(DateTimeFormatter.ofPattern("MMMM dd, yyyy"))
                 val formattedTime = currentDateTime.format(DateTimeFormatter.ofPattern("hh:mm a"))

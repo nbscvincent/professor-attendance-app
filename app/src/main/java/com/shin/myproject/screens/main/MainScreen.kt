@@ -33,10 +33,12 @@ import com.shin.myproject.ViewModel.ScreenViewModel
 import com.shin.myproject.ViewModel.splash.SubjectRegisterSplashScreen
 import com.shin.myproject.ViewModel.student.StudentListViewModel
 import com.shin.myproject.navigation.bottomNavBar.BottomNavBar
+import com.shin.myproject.navigation.routes.DashboardRoute
 import com.shin.myproject.navigation.routes.MainRoute
 import com.shin.myproject.navigation.routes.ProfileRoute
 import com.shin.myproject.navigation.routes.Routes
 import com.shin.myproject.navigation.routes.SubjectRoute
+import com.shin.myproject.screens.main.mainScreen.analyticDashboard.screen.AttendanceHistory
 import com.shin.myproject.screens.main.mainScreen.analyticDashboard.screen.Dashboard
 import com.shin.myproject.screens.main.mainScreen.home.screen.HomeScreen
 import com.shin.myproject.screens.main.mainScreen.notification.screen.NotificationScreen
@@ -144,6 +146,7 @@ fun MainScreen() {
 
                 ProfileRoute.ProfileSettings.name -> TopBarInfo("Account Settings", Icons.Default.ArrowBack, MainRoute.Profile.name, null, null)
 
+                DashboardRoute.AttendanceHistory.name -> TopBarInfo("Attendance History", Icons.Default.ArrowBack, MainRoute.Dashboard.name, null, null)
                 else -> TopBarInfo("", null, null, null, null)
             }
 
@@ -160,6 +163,18 @@ fun MainScreen() {
                     isTopAppBarVisible = true
                     isBottomAppBarVisible = true
                     Dashboard(navController)
+                }
+                navigation(startDestination = MainRoute.Dashboard.name, route = Routes.DASHBOARD.name) {
+                    composable(route = MainRoute.Dashboard.name) {
+                        isTopAppBarVisible = true
+                        isBottomAppBarVisible = true
+                        Dashboard(navController)
+                    }
+                    composable(route = DashboardRoute.AttendanceHistory.name) {
+                        isTopAppBarVisible = true
+                        isBottomAppBarVisible = false
+                        AttendanceHistory(navController)
+                    }
                 }
                 composable(route = MainRoute.Subjects.name) {
                     isTopAppBarVisible = true
