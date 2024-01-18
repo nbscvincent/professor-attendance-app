@@ -9,6 +9,7 @@ data class LoggedInUser(
     val firstname: String,
     val lastname: String,
     val email: String,
+    var password: String,
     val phone: String
 )
 

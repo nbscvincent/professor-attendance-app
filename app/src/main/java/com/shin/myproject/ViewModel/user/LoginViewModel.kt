@@ -39,6 +39,7 @@ class LoginViewModel(
             firstname = user.firstname,
             lastname = user.lastname,
             email = user.email,
+            password = user.password,
             phone = user.phone
         )
 
