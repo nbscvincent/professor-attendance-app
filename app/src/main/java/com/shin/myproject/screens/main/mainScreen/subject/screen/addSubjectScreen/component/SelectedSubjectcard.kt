@@ -89,12 +89,12 @@ fun SubjectInfoItem(icon: ImageVector, tag: String, content: String) {
         Spacer(modifier = Modifier.width(8.dp))
         Text(
             text = tag,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(2f)
         )
         Spacer(modifier = Modifier.width(8.dp))
         Text(
             text = content,
-            modifier = Modifier.weight(4f)
+            modifier = Modifier.weight(3f)
         )
     }
 }

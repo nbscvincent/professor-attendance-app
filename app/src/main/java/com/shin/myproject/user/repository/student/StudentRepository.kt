@@ -36,4 +36,9 @@ interface StudentRepository {
      * Reset the marked status of all students to false.
      */
     suspend fun resetMarkedStatusForAllStudents()
+
+    /**
+     * Get count of all students for the logged-in user.
+     */
+    suspend fun getStudentCountForLoggedInUser(userId: Long): Int
 }

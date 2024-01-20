@@ -150,51 +150,51 @@ fun LoginScreen(
                 )
             }
 
-            item {
-                Row(
-                    modifier = Modifier
-                        .padding(horizontal = 25.dp, vertical = 3.dp)
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    val checkedState = remember { mutableStateOf(false) }
-                    Row(
-                        modifier = Modifier
-                            .padding(0.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceEvenly
-                    ) {
-                        Checkbox(
-                            checked = checkedState.value,
-                            colors = CheckboxDefaults.colors(
-                                checkedColor = Color.Red,
-                                uncheckedColor = Color.Black,
-                                checkmarkColor = Color.White
-                            ),
-                            onCheckedChange = { checkedState.value = it }
-                        )
-
-                        Text(
-                            text = "Remember Me",
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Normal,
-                            modifier = Modifier.padding(start = 4.dp)
-                        )
-                    }
-                    ClickableText(
-                        text = AnnotatedString("Forgot Password?"),
-                        onClick = { navController.navigate(AuthRoute.OTPScreen.name) },
-                        style = TextStyle(
-                            color = Color.Red,
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Bold,
-                            textDecoration = TextDecoration.Underline
-                        ),
-                        modifier = Modifier.padding(end = 4.dp)
-                    )
-                }
-            }
+//            item {
+//                Row(
+//                    modifier = Modifier
+//                        .padding(horizontal = 25.dp, vertical = 3.dp)
+//                        .fillMaxWidth(),
+//                    horizontalArrangement = Arrangement.SpaceBetween,
+//                    verticalAlignment = Alignment.CenterVertically
+//                ) {
+//                    val checkedState = remember { mutableStateOf(false) }
+//                    Row(
+//                        modifier = Modifier
+//                            .padding(0.dp),
+//                        verticalAlignment = Alignment.CenterVertically,
+//                        horizontalArrangement = Arrangement.SpaceEvenly
+//                    ) {
+//                        Checkbox(
+//                            checked = checkedState.value,
+//                            colors = CheckboxDefaults.colors(
+//                                checkedColor = Color.Red,
+//                                uncheckedColor = Color.Black,
+//                                checkmarkColor = Color.White
+//                            ),
+//                            onCheckedChange = { checkedState.value = it }
+//                        )
+//
+//                        Text(
+//                            text = "Remember Me",
+//                            fontSize = 14.sp,
+//                            fontWeight = FontWeight.Normal,
+//                            modifier = Modifier.padding(start = 4.dp)
+//                        )
+//                    }
+//                    ClickableText(
+//                        text = AnnotatedString("Forgot Password?"),
+//                        onClick = { navController.navigate(AuthRoute.OTPScreen.name) },
+//                        style = TextStyle(
+//                            color = Color.Red,
+//                            fontSize = 14.sp,
+//                            fontWeight = FontWeight.Bold,
+//                            textDecoration = TextDecoration.Underline
+//                        ),
+//                        modifier = Modifier.padding(end = 4.dp)
+//                    )
+//                }
+//            }
 
             item {
                 Column(

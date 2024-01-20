@@ -87,7 +87,9 @@ object AppViewModelProvider {
         // Initializer for DashboardViewModel
         initializer {
             DashboardViewModel(
-                nbsAttendanceApplication().container.attendanceRepository
+                nbsAttendanceApplication().container.attendanceRepository,
+                nbsAttendanceApplication().container.subjectRepository,
+                nbsAttendanceApplication().container.studentRepository
             )
         }
 

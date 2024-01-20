@@ -8,6 +8,10 @@ import kotlinx.coroutines.flow.Flow
 class OfflineAttendanceRepository(private val attendanceDao: AttendanceDao) : AttendanceRepository {
     override suspend fun insertAttendance(attendance: Attendance) = attendanceDao.insert(attendance)
 
+    override suspend fun getAttendancesForSubject(subjectId: Long): Flow<List<Attendance>> {
+        return attendanceDao.getAttendancesForSubject(subjectId)
+    }
+
     override suspend fun updateAttendanceStatus(attendanceId: Long, attendanceStatus: Boolean) {
         attendanceDao.updateAttendanceStatus(attendanceId, attendanceStatus)
     }

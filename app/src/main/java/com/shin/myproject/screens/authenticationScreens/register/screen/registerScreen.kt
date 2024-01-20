@@ -23,8 +23,6 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PhoneAndroid
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -43,14 +41,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -291,44 +286,44 @@ fun RegistrationScreen(
                 }
             }
 
-            item {
-                val termsAndConditionsText = buildAnnotatedString {
-                    withStyle(style = SpanStyle(color = Color.Black)) {
-                        append("By checking the box, you agree to our ")
-                    }
-                    pushStyle(style = SpanStyle(color = if (isChecked.value) Color.Red else Color.Black))
-                    append("Terms ")
-                    pushStyle(style = SpanStyle(color = Color.Black))
-                    append("and ")
-                    pushStyle(style = SpanStyle(color = if (isChecked.value) Color.Red else Color.Black))
-                    append("Conditions.")
-                }
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 25.dp, vertical = 15.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Checkbox(
-                        checked = isChecked.value,
-                        colors = CheckboxDefaults.colors(
-                            checkedColor = Color.Red,
-                            uncheckedColor = Color.Black,
-                            checkmarkColor = Color.White
-                        ),
-                        onCheckedChange = { isChecked.value = it }
-                    )
-                    ClickableText(
-                        text = termsAndConditionsText,
-                        onClick = { offset ->
-                            if (offset >= termsAndConditionsText.length - 18) {
-                                // Handle click on "Terms and Conditions" text
-                            }
-                        }
-                    )
-                }
-            }
+//            item {
+//                val termsAndConditionsText = buildAnnotatedString {
+//                    withStyle(style = SpanStyle(color = Color.Black)) {
+//                        append("By checking the box, you agree to our ")
+//                    }
+//                    pushStyle(style = SpanStyle(color = if (isChecked.value) Color.Red else Color.Black))
+//                    append("Terms ")
+//                    pushStyle(style = SpanStyle(color = Color.Black))
+//                    append("and ")
+//                    pushStyle(style = SpanStyle(color = if (isChecked.value) Color.Red else Color.Black))
+//                    append("Conditions.")
+//                }
+//
+//                Row(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(horizontal = 25.dp, vertical = 15.dp),
+//                    verticalAlignment = Alignment.CenterVertically
+//                ) {
+//                    Checkbox(
+//                        checked = isChecked.value,
+//                        colors = CheckboxDefaults.colors(
+//                            checkedColor = Color.Red,
+//                            uncheckedColor = Color.Black,
+//                            checkmarkColor = Color.White
+//                        ),
+//                        onCheckedChange = { isChecked.value = it }
+//                    )
+//                    ClickableText(
+//                        text = termsAndConditionsText,
+//                        onClick = { offset ->
+//                            if (offset >= termsAndConditionsText.length - 18) {
+//                                // Handle click on "Terms and Conditions" text
+//                            }
+//                        }
+//                    )
+//                }
+//            }
 
             item {
                 Column(

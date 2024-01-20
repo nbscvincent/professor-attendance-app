@@ -19,6 +19,7 @@ import com.shin.myproject.ViewModel.student.StudentListViewModel
 import com.shin.myproject.ViewModel.subject.SubjectListViewModel
 import com.shin.myproject.data.mainscreenModel.subjectModel.SubjectInfoHolder
 import com.shin.myproject.navigation.routes.DashboardRoute
+import com.shin.myproject.screens.main.mainScreen.analyticDashboard.screen.components.AttendanceStatisticsCard
 import com.shin.myproject.screens.main.mainScreen.analyticDashboard.screen.components.SubjectDataCard
 
 @Composable
@@ -36,9 +37,17 @@ fun Dashboard(
         studentListViewModel.loadAbsentAttendances()
     }
 
-    val subjects by subjectListViewModel.subjectList.observeAsState(emptyList())
+    LaunchedEffect(dashboardListViewModel) {
+        dashboardListViewModel.loadSubjects()
+        dashboardListViewModel.loadAttendances()
+        dashboardListViewModel.allStudentsOfUser()
+    }
+
     val subjectInfo: SubjectInfoHolder = SubjectInfoHolder
-    val selectedSubjectInfo = subjectInfo.subjectInfo.value
+    val attendanceList by dashboardListViewModel.attendanceList.observeAsState(emptyList())
+    val subjects by dashboardListViewModel.subjectList.observeAsState(emptyList())
+    val students by studentListViewModel.studentList.observeAsState(emptyList())
+    val allStudents by dashboardListViewModel.allStudentsOfUser.observeAsState(0)
 
     LazyColumn(
         modifier = Modifier
@@ -46,9 +55,24 @@ fun Dashboard(
             .padding(vertical = 4.dp, horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        item {
+            AttendanceStatisticsCard(
+                totalStudents = allStudents,
+                totalSubjects = subjects.size,
+                presentCount = attendanceList.count { it.attendanceStatus },
+                absentCount = attendanceList.count { !it.attendanceStatus }
+            )
+        }
+
         items(subjects) { subject ->
+            // Observe live attendance data for the specific subject
+            val attendanceListForSubject by dashboardListViewModel
+                .getAttendanceListForSubject(subject.subjectId)
+                .observeAsState(emptyList())
+
             SubjectDataCard(
                 subject = subject,
+                attendanceList = attendanceListForSubject,
                 onClick = {
                     subjectListViewModel.onSubjectClicked(subject.subjectId)
                     navController.navigate(DashboardRoute.AttendanceHistory.name)

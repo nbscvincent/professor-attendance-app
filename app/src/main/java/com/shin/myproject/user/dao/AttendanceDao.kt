@@ -13,6 +13,9 @@ interface AttendanceDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(attendance: Attendance)
 
+    @Query("SELECT * FROM Attendance WHERE subjectId = :subjectId")
+    fun getAttendancesForSubject(subjectId: Long): Flow<List<Attendance>>
+
     /**
      * Get attendance data for a specific student and date.
      */

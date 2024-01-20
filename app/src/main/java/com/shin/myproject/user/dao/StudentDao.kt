@@ -30,4 +30,7 @@ interface StudentDao {
 
     @Query("UPDATE Students SET marked = 0")
     suspend fun resetMarkedStatusForAllStudents()
+
+    @Query("SELECT COUNT(*) FROM Students WHERE subject_id IN (SELECT subject_id FROM Subjects WHERE user_id = :userId)")
+    suspend fun getStudentCountForLoggedInUser(userId: Long): Int
 }

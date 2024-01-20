@@ -10,6 +10,8 @@ interface AttendanceRepository {
      */
     suspend fun insertAttendance(attendance: Attendance)
 
+    suspend fun getAttendancesForSubject(subjectId: Long): Flow<List<Attendance>>
+
     /**
      * Update the attendance status for a specific attendance ID.
      */

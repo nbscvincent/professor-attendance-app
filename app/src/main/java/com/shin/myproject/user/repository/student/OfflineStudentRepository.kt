@@ -26,4 +26,8 @@ class OfflineStudentRepository(private val studentDao: StudentDao) : StudentRepo
     override suspend fun resetMarkedStatusForAllStudents() {
         studentDao.resetMarkedStatusForAllStudents()
     }
+
+    override suspend fun getStudentCountForLoggedInUser(userId: Long): Int {
+        return studentDao.getStudentCountForLoggedInUser(userId)
+    }
 }
