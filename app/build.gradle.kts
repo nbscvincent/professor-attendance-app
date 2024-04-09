@@ -2,14 +2,17 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
+    id("kotlin-parcelize")
+    id("kotlinx-serialization")
+    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 android {
-    namespace = "com.attendanceapp2"
+    namespace = "com.professorsattendanceapp"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.attendanceapp2"
+        applicationId = "com.professorsattendanceapp"
         minSdk = 26
         targetSdk = 33
         versionCode = 1
@@ -133,4 +136,21 @@ dependencies {
     //Zxing
     implementation("com.google.zxing:core:3.4.0")
     implementation ("com.journeyapps:zxing-android-embedded:4.2.0")
+
+    // Ktor for networking
+    val ktor_version ="2.2.2"
+    implementation( "io.ktor:ktor-client-core:$ktor_version")
+    implementation( "io.ktor:ktor-client-android:$ktor_version")
+    implementation( "io.ktor:ktor-client-serialization:$ktor_version")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+    implementation( "io.ktor:ktor-client-logging:$ktor_version")
+    implementation( "io.ktor:ktor-client-auth:$ktor_version")
+    implementation( "io.ktor:ktor-client-content-negotiation:$ktor_version")
+    implementation( "io.ktor:ktor-server-http-redirect:$ktor_version")
+    implementation( "io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
+    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+
+    // Timber for loggin
+    implementation ("com.jakewharton.timber:timber:5.0.1")
+
 }
