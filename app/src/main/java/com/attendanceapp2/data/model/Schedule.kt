@@ -9,6 +9,7 @@ import androidx.room.PrimaryKey
 data class Schedule(
     @PrimaryKey(autoGenerate = true)
     val id : Long = 0,
+    val subjectId : Long,
     val subjectCode : String,
     val subjectName : String,
     val day : String,
